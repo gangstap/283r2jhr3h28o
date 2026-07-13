@@ -93,10 +93,7 @@ manage_package() {
  local autostart="$2"
  local process="$3"
 
- # Проверка, установлен ли пакет
  if opkg list-installed | grep -q "^$name"; then
-
- # Проверка, включен ли автозапуск
  if /etc/init.d/$name enabled; then
  if [ "$autostart" = "disable" ]; then
  /etc/init.d/$name disable
@@ -107,7 +104,6 @@ manage_package() {
  fi
  fi
 
- # Проверка, запущен ли процесс
  if pidof $name > /dev/null; then
  if [ "$process" = "stop" ]; then
  /etc/init.d/$name stop
@@ -124,7 +120,6 @@ checkPackageAndInstall()
 {
  local name="$1"
  local isRequried="$2"
- #проверяем установлени ли библиотека $name
  if opkg list-installed | grep -q $name; then
  echo "$name already installed..."
  else
@@ -145,8 +140,7 @@ checkPackageAndInstall()
 requestConfWARP1()
 {
  HASH='68747470733a2f2f73616e74612d61746d6f2e72752f776172702f776172702e706870'
- COMPILE=$(printf '%b' "$(printf '%sn' "$HASH" | sed 's/../\x&/g')")
- #запрос конфигурации WARP
+ COMPILE=$(printf '%b' "$(printf '%s\n' "$HASH" | sed 's/../\x&/g')")
  local response=$(curl --connect-timeout 20 --max-time 60 -w "%{http_code}" "$COMPILE" \
  -A 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36' \
  -H "referer: $COMPILE" \
@@ -156,7 +150,6 @@ requestConfWARP1()
 
 requestConfWARP2()
 {
- #запрос конфигурации WARP
  local result=$(curl --connect-timeout 20 --max-time 60 -w "%{http_code}" 'https://dulcet-fox-556b08.netlify.app/api/warp' \
  -H 'Accept: */*' \
  -H 'Accept-Language: ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7' \
@@ -177,7 +170,6 @@ requestConfWARP2()
 
 requestConfWARP3()
 {
- #запрос конфигурации WARP
  local result=$(curl --connect-timeout 20 --max-time 60 -w "%{http_code}" 'https://warp-config-generator-theta.vercel.app/api/warp' \
  -H 'Accept: */*' \
  -H 'Accept-Language: ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7' \
@@ -198,7 +190,6 @@ requestConfWARP3()
 
 requestConfWARP4()
 {
- #запрос конфигурации WARP
  local result=$(curl --connect-timeout 20 --max-time 60 -w "%{http_code}" 'https://generator-warp-config.vercel.app/warp4s?dns=1.1.1.1%2C%201.0.0.1%2C%202606%3A4700%3A4700%3A%3A1111%2C%202606%3A4700%3A4700%3A%3A1001&allowedIPs=0.0.0.0%2F0%2C%20%3A%3A%2F0' \
  -A 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36' \
  -H 'referer: https://generator-warp-config.vercel.app' \
@@ -208,7 +199,6 @@ requestConfWARP4()
 
 requestConfWARP5()
 {
- #запрос конфигурации WARP
  local result=$(curl --connect-timeout 20 --max-time 60 -w "%{http_code}" 'https://valokda-amnezia.vercel.app/api/warp' \
  -A 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36' \
  -H 'accept: */*' \
@@ -219,7 +209,6 @@ requestConfWARP5()
 
 requestConfWARP6()
 {
- #запрос конфигурации WARP
  local result=$(curl --connect-timeout 20 --max-time 60 -w "%{http_code}" 'https://warp-gen.vercel.app/generate-config' \
  -A 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36' \
  -H 'accept: */*' \
@@ -230,7 +219,6 @@ requestConfWARP6()
 
 requestConfWARP7()
 {
- #запрос конфигурации WARP
  local result=$(curl --connect-timeout 20 --max-time 60 -w "%{http_code}" 'https://config-generator-warp.vercel.app/warps' \
  -A 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36' \
  -H 'accept: */*' \
@@ -241,7 +229,6 @@ requestConfWARP7()
 
 requestConfWARP8()
 {
- #запрос конфигурации WARP без параметров
  local result=$(curl --connect-timeout 20 --max-time 60 -w "%{http_code}" 'https://config-generator-warp.vercel.app/warp6s' \
  -A 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36' \
  -H 'accept: */*' \
@@ -252,7 +239,6 @@ requestConfWARP8()
 
 requestConfWARP9()
 {
- #запрос конфигурации WARP без параметров
  local result=$(curl --connect-timeout 20 --max-time 60 -w "%{http_code}" 'https://config-generator-warp.vercel.app/warp4s' \
  -A 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36' \
  -H 'accept: */*' \
@@ -263,7 +249,6 @@ requestConfWARP9()
 
 requestConfWARP10()
 {
- #запрос конфигурации WARP
  local result=$(curl --connect-timeout 20 --max-time 60 -w "%{http_code}" 'https://warp-generator.vercel.app/api/warp' \
  -A 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36' \
  -H 'accept: */*' \
@@ -306,15 +291,12 @@ EOM
 echo "$conf"
 }
 
-# Функция для обработки выполнения запроса
 check_request() {
 local response="$1"
 local choice="$2"
 
-# Извлекаем код состояния
-response_code="${response: -3}" # Последние 3 символа - это код состояния
-response_body="${response%???}" # Все, кроме последних 3 символов - это тело ответа
-# Проверяем код состояния
+response_code="${response: -3}"
+response_body="${response%???}"
 if [ "$response_code" -eq 200 ]; then
 case $choice in
 1)
@@ -382,7 +364,6 @@ nameRule="option name '$1'"
 str=$(grep -i "$nameRule" /etc/config/dhcp)
 if [ -z "$str" ]
 then
-
 uci add dhcp domain
 uci set dhcp.@domain[-1].name="$1"
 uci set dhcp.@domain[-1].ip="$2"
@@ -490,11 +471,9 @@ mkdir -p "$AWG_DIR"
 if opkg list-installed | grep -q $PACK_NAME; then
 echo "$PACK_NAME already installed"
 else
-# Список пакетов, которые нужно проверить и установить/обновить
 PACKAGES="kmod-nfnetlink-queue kmod-nft-queue kmod-nf-conntrack"
 
 for pkg in $PACKAGES; do
-# Проверяем, установлен ли пакет
 if opkg list-installed | grep -q "^$pkg "; then
 echo "$pkg already installed"
 else
@@ -652,14 +631,14 @@ if [ -z "$str" ]
 then
 echo "Add block QUIC..."
 
-uci add firewall rule # =cfg2492bd
+uci add firewall rule
 uci set firewall.@rule[-1].name='Block_UDP_80'
 uci add_list firewall.@rule[-1].proto='udp'
 uci set firewall.@rule[-1].src='lan'
 uci set firewall.@rule[-1].dest='wan'
 uci set firewall.@rule[-1].dest_port='80'
 uci set firewall.@rule[-1].target='REJECT'
-uci add firewall rule # =cfg2592bd
+uci add firewall rule
 uci set firewall.@rule[-1].name='Block_UDP_443'
 uci add_list firewall.@rule[-1].proto='udp'
 uci set firewall.@rule[-1].src='lan'
@@ -669,8 +648,7 @@ uci set firewall.@rule[-1].target='REJECT'
 uci commit firewall
 fi
 
-printf "033[32;1mCheck work youtubeUnblock..033[0mn"
-#install_youtubeunblock_packages
+printf "\033[32;1mCheck work youtubeUnblock..\033[0m\n"
 opkg upgrade youtubeUnblock
 opkg upgrade luci-app-youtubeUnblock
 manage_package "youtubeUnblock" "enable" "start"
@@ -682,9 +660,8 @@ isWorkYoutubeUnBlock=0
 
 curl -f -o /dev/null -k --connect-to ::google.com -L -H "Host: mirror.gcr.io" --max-time 360 https://test.googlevideo.com/v2/cimg/android/blobs/sha256:6fd8bdac3da660bde7bd0b6f2b6a46e1b686afb74b9a4614def32532b73f5eaa
 
-# Проверяем код выхода
 if [ $? -eq 0 ]; then
-printf "033[32;1myoutubeUnblock well work...033[0mn"
+printf "\033[32;1myoutubeUnblock well work...\033[0m\n"
 cronTask="0 4 * * * service youtubeUnblock restart"
 str=$(grep -i "0 4 * * * service youtubeUnblock restart" /etc/crontabs/root)
 if [ -z "$str" ]
@@ -695,7 +672,7 @@ fi
 isWorkYoutubeUnBlock=1
 else
 manage_package "youtubeUnblock" "disable" "stop"
-printf "033[32;1myoutubeUnblock not work...033[0mn"
+printf "\033[32;1myoutubeUnblock not work...\033[0m\n"
 isWorkYoutubeUnBlock=0
 str=$(grep -i "0 4 * * * service youtubeUnblock restart" /etc/crontabs/root)
 if [ ! -z "$str" ]
@@ -707,42 +684,39 @@ fi
 fi
 
 isWorkOperaProxy=0
-printf "033[32;1mCheck opera proxy...033[0mn"
+printf "\033[32;1mCheck opera proxy...\033[0m\n"
 service sing-box restart
 curl --proxy http://127.0.0.1:18080 ipinfo.io/ip
 if [ $? -eq 0 ]; then
-printf "033[32;1mOpera proxy well work...033[0mn"
+printf "\033[32;1mOpera proxy well work...\033[0m\n"
 isWorkOperaProxy=1
 else
-printf "033[32;1mOpera proxy not work...033[0mn"
+printf "\033[32;1mOpera proxy not work...\033[0m\n"
 isWorkOperaProxy=0
 fi
 
-#printf "033[32;1mAutomatic generate config AmneziaWG WARP (n) or manual input parameters for AmneziaWG (y)...033[0mn"
 countRepeatAWGGen=2
-#echo "Input manual parameters AmneziaWG? (y/n): "
-#read is_manual_input_parameters
 currIter=0
 isExit=0
 while [ $currIter -lt $countRepeatAWGGen ] && [ "$isExit" = "0" ]
 do
 currIter=$(( $currIter + 1 ))
-printf "033[32;1mCreate and Check AWG WARP... Attempt #$currIter... Please wait...033[0mn"
+printf "\033[32;1mCreate and Check AWG WARP... Attempt #$currIter... Please wait...\033[0m\n"
 if [ "$is_manual_input_parameters" = "y" ] || [ "$is_manual_input_parameters" = "Y" ]
 then
-read -r -p "Enter the private key (from [Interface]):"$'n' PrivateKey
-read -r -p "Enter S1 value (from [Interface]):"$'n' S1
-read -r -p "Enter S2 value (from [Interface]):"$'n' S2
-read -r -p "Enter Jc value (from [Interface]):"$'n' Jc
-read -r -p "Enter Jmin value (from [Interface]):"$'n' Jmin
-read -r -p "Enter Jmax value (from [Interface]):"$'n' Jmax
-read -r -p "Enter H1 value (from [Interface]):"$'n' H1
-read -r -p "Enter H2 value (from [Interface]):"$'n' H2
-read -r -p "Enter H3 value (from [Interface]):"$'n' H3
-read -r -p "Enter H4 value (from [Interface]):"$'n' H4
+read -r -p "Enter the private key (from [Interface]):"$'\n' PrivateKey
+read -r -p "Enter S1 value (from [Interface]):"$'\n' S1
+read -r -p "Enter S2 value (from [Interface]):"$'\n' S2
+read -r -p "Enter Jc value (from [Interface]):"$'\n' Jc
+read -r -p "Enter Jmin value (from [Interface]):"$'\n' Jmin
+read -r -p "Enter Jmax value (from [Interface]):"$'\n' Jmax
+read -r -p "Enter H1 value (from [Interface]):"$'\n' H1
+read -r -p "Enter H2 value (from [Interface]):"$'\n' H2
+read -r -p "Enter H3 value (from [Interface]):"$'\n' H3
+read -r -p "Enter H4 value (from [Interface]):"$'\n' H4
 
 while true; do
-read -r -p "Enter internal IP address with subnet, example 192.168.100.5/24 (from [Interface]):"$'n' Address
+read -r -p "Enter internal IP address with subnet, example 192.168.100.5/24 (from [Interface]):"$'\n' Address
 if echo "$Address" | egrep -oq '^([0-9]{1,3}.){3}[0-9]{1,3}(\/[0-9]+)?$'; then
 break
 else
@@ -750,9 +724,9 @@ echo "This IP is not valid. Please repeat"
 fi
 done
 
-read -r -p "Enter the public key (from [Peer]):"$'n' PublicKey
-read -r -p "Enter Endpoint host without port (Domain or IP) (from [Peer]):"$'n' EndpointIP
-read -r -p "Enter Endpoint host port (from [Peer]) [51820]:"$'n' EndpointPort
+read -r -p "Enter the public key (from [Peer]):"$'\n' PublicKey
+read -r -p "Enter Endpoint host without port (Domain or IP) (from [Peer]):"$'\n' EndpointIP
+read -r -p "Enter Endpoint host port (from [Peer]) [51820]:"$'\n' EndpointPort
 
 DNS="1.1.1.1"
 MTU=1280
@@ -760,52 +734,52 @@ AllowedIPs="0.0.0.0/0"
 isExit=1
 else
 warp_config="Error"
-printf "033[32;1mRequest WARP config... Attempt #1033[0mn"
+printf "\033[32;1mRequest WARP config... Attempt #1\033[0m\n"
 result=$(requestConfWARP1)
 warpGen=$(check_request "$result" 1)
 if [ "$warpGen" = "Error" ]
 then
-printf "033[32;1mRequest WARP config... Attempt #2033[0mn"
+printf "\033[32;1mRequest WARP config... Attempt #2\033[0m\n"
 result=$(requestConfWARP2)
 warpGen=$(check_request "$result" 2)
 if [ "$warpGen" = "Error" ]
 then
-printf "033[32;1mRequest WARP config... Attempt #3033[0mn"
+printf "\033[32;1mRequest WARP config... Attempt #3\033[0m\n"
 result=$(requestConfWARP3)
 warpGen=$(check_request "$result" 3)
 if [ "$warpGen" = "Error" ]
 then
-printf "033[32;1mRequest WARP config... Attempt #4033[0mn"
+printf "\033[32;1mRequest WARP config... Attempt #4\033[0m\n"
 result=$(requestConfWARP4)
 warpGen=$(check_request "$result" 4)
 if [ "$warpGen" = "Error" ]
 then
-printf "033[32;1mRequest WARP config... Attempt #5033[0mn"
+printf "\033[32;1mRequest WARP config... Attempt #5\033[0m\n"
 result=$(requestConfWARP5)
 warpGen=$(check_request "$result" 5)
 if [ "$warpGen" = "Error" ]
 then
-printf "033[32;1mRequest WARP config... Attempt #6033[0mn"
+printf "\033[32;1mRequest WARP config... Attempt #6\033[0m\n"
 result=$(requestConfWARP6)
 warpGen=$(check_request "$result" 6)
 if [ "$warpGen" = "Error" ]
 then
-printf "033[32;1mRequest WARP config... Attempt #7033[0mn"
+printf "\033[32;1mRequest WARP config... Attempt #7\033[0m\n"
 result=$(requestConfWARP7)
 warpGen=$(check_request "$result" 7)
 if [ "$warpGen" = "Error" ]
 then
-printf "033[32;1mRequest WARP config... Attempt #8033[0mn"
+printf "\033[32;1mRequest WARP config... Attempt #8\033[0m\n"
 result=$(requestConfWARP8)
 warpGen=$(check_request "$result" 8)
 if [ "$warpGen" = "Error" ]
 then
-printf "033[32;1mRequest WARP config... Attempt #9033[0mn"
+printf "\033[32;1mRequest WARP config... Attempt #9\033[0m\n"
 result=$(requestConfWARP9)
 warpGen=$(check_request "$result" 9)
 if [ "$warpGen" = "Error" ]
 then
-printf "033[32;1mRequest WARP config... Attempt #10033[0mn"
+printf "\033[32;1mRequest WARP config... Attempt #10\033[0m\n"
 result=$(requestConfWARP10)
 warpGen=$(check_request "$result" 10)
 if [ "$warpGen" = "Error" ]
@@ -844,20 +818,17 @@ fi
 
 if [ "$warp_config" = "Error" ]
 then
-printf "033[32;1mGenerate config AWG WARP failed...Try again later...033[0mn"
+printf "\033[32;1mGenerate config AWG WARP failed...Try again later...\033[0m\n"
 isExit=2
-#else exit 1
 else
 while IFS=' = ' read -r line; do
 if echo "$line" | grep -q "="; then
-# Разделяем строку по первому вхождению "="
-key=$(echo "$line" | cut -d'=' -f1 | xargs) # Убираем пробелы
-value=$(echo "$line" | cut -d'=' -f2- | xargs) # Убираем пробелы
+key=$(echo "$line" | cut -d'=' -f1 | xargs)
+value=$(echo "$line" | cut -d'=' -f2- | xargs)
 eval "$key=$value"
 fi
 done < <(echo "$warp_config")
 
-#вытаскиваем нужные нам данные из распарсинного ответа
 Address=$(echo "$Address" | cut -d',' -f1)
 DNS=$(echo "$DNS" | cut -d',' -f1)
 AllowedIPs=$(echo "$AllowedIPs" | cut -d',' -f1)
@@ -870,9 +841,8 @@ if [ "$isExit" = "2" ]
 then
 isExit=0
 else
-printf "033[32;1mCreate and configure tunnel AmneziaWG WARP...033[0mn"
+printf "\033[32;1mCreate and configure tunnel AmneziaWG WARP...\033[0m\n"
 
-#задаём имя интерфейса
 INTERFACE_NAME="awg10"
 CONFIG_NAME="amneziawg_awg10"
 PROTO="amneziawg"
@@ -908,7 +878,7 @@ uci set network.@${CONFIG_NAME}[-1].route_allowed_ips='0'
 uci commit network
 
 if ! uci show firewall | grep -q "@zone.*name='${ZONE_NAME}'"; then
-printf "033[32;1mZone Create033[0mn"
+printf "\033[32;1mZone Create\033[0m\n"
 uci add firewall zone
 uci set firewall.@zone[-1].name=$ZONE_NAME
 uci set firewall.@zone[-1].network=$INTERFACE_NAME
@@ -922,7 +892,7 @@ uci commit firewall
 fi
 
 if ! uci show firewall | grep -q "@forwarding.*name='${ZONE_NAME}'"; then
-printf "033[32;1mConfigured forwarding033[0mn"
+printf "\033[32;1mConfigured forwarding\033[0m\n"
 uci add firewall forwarding
 uci set firewall.@forwarding[-1]=forwarding
 uci set firewall.@forwarding[-1].name="${ZONE_NAME}"
@@ -932,17 +902,11 @@ uci set firewall.@forwarding[-1].family='ipv4'
 uci commit firewall
 fi
 
-# Получаем список всех зон
 ZONES=$(uci show firewall | grep "zone$" | cut -d'=' -f1)
-# Циклически проходим по всем зонам
 for zone in $ZONES; do
-# Получаем имя зоны
 CURR_ZONE_NAME=$(uci get $zone.name)
-# Проверяем, является ли это зона с именем "$ZONE_NAME"
 if [ "$CURR_ZONE_NAME" = "$ZONE_NAME" ]; then
-# Проверяем, существует ли интерфейс в зоне
 if ! uci get $zone.network | grep -q "$INTERFACE_NAME"; then
-# Добавляем интерфейс в зону
 uci add_list $zone.network="$INTERFACE_NAME"
 uci commit firewall
 fi
@@ -965,21 +929,19 @@ EndpointPort="$element2"
 uci set network.@${CONFIG_NAME}[-1].endpoint_host=$EndpointIP
 uci set network.@${CONFIG_NAME}[-1].endpoint_port=$EndpointPort
 uci commit network
-# Отключаем интерфейс
 ifdown $INTERFACE_NAME
-# Включаем интерфейс
 ifup $INTERFACE_NAME
-printf "033[33;1mIter #$I: Check Endpoint WARP $element:$element2. Wait up AWG WARP 10 second...033[0mn"
+printf "\033[33;1mIter #$I: Check Endpoint WARP $element:$element2. Wait up AWG WARP 10 second...\033[0m\n"
 sleep 10
 
 pingAddress="8.8.8.8"
 if ping -c 1 -I $INTERFACE_NAME $pingAddress >/dev/null 2>&1
 then
-printf "033[32;1m Endpoint WARP $element:$element2 work...033[0mn"
+printf "\033[32;1m Endpoint WARP $element:$element2 work...\033[0m\n"
 isExit=1
 break
 else
-printf "033[31;1m Endpoint WARP $element:$element2 not work...033[0mn"
+printf "\033[31;1m Endpoint WARP $element:$element2 not work...\033[0m\n"
 isExit=0
 fi
 done
@@ -989,11 +951,9 @@ break
 fi
 done
 else
-# Отключаем интерфейс
 ifdown $INTERFACE_NAME
-# Включаем интерфейс
 ifup $INTERFACE_NAME
-printf "033[32;1mWait up AWG WARP 10 second...033[0mn"
+printf "\033[32;1mWait up AWG WARP 10 second...\033[0m\n"
 sleep 10
 
 pingAddress="8.8.8.8"
@@ -1012,10 +972,10 @@ isWorkWARP=0
 
 if [ "$isExit" = "1" ]
 then
-printf "033[32;1mAWG WARP well work...033[0mn"
+printf "\033[32;1mAWG WARP well work...\033[0m\n"
 isWorkWARP=1
 else
-printf "033[32;1mAWG WARP not work.....Try opera proxy...033[0mn"
+printf "\033[32;1mAWG WARP not work.....Try opera proxy...\033[0m\n"
 isWorkWARP=0
 fi
 
@@ -1047,20 +1007,20 @@ then
 varByPass=8
 fi
 
-printf "033[32;1mRestart service dnsmasq, odhcpd...033[0mn"
+printf "\033[32;1mRestart service dnsmasq, odhcpd...\033[0m\n"
 service dnsmasq restart
 service odhcpd restart
 
 path_podkop_config="/etc/config/podkop"
 path_podkop_config_backup="/root/podkop"
-URL="https://raw.githubusercontent.com/routerich/RouterichAX3000_configs/refs/heads/zapret2"
+URL="https://raw.githubusercontent.com/gangstap/283r2jhr3h28o/refs/heads/main"
 
 messageComplete=""
 
 case $varByPass in
 1)
 nameFileReplacePodkop="podkopNoYoutube"
-printf "033[32;1mStop and disabled service 'ruantiblock'...033[0mn"
+printf "\033[32;1mStop and disabled service 'ruantiblock'...\033[0m\n"
 manage_package "ruantiblock" "disable" "stop"
 wget -O "/etc/config/youtubeUnblock" "$URL/config_files/youtubeUnblockSecond"
 service youtubeUnblock restart
@@ -1069,7 +1029,7 @@ messageComplete="ByPass block for Method 1: AWG WARP + youtubeunblock + Opera Pr
 ;;
 2)
 nameFileReplacePodkop="podkop"
-printf "033[32;1mStop and disabled service 'youtubeUnblock' and 'ruantiblock'...033[0mn"
+printf "\033[32;1mStop and disabled service 'youtubeUnblock' and 'ruantiblock'...\033[0m\n"
 manage_package "youtubeUnblock" "disable" "stop"
 manage_package "ruantiblock" "disable" "stop"
 deleteByPassGeoBlockComssDNS
@@ -1077,7 +1037,7 @@ messageComplete="ByPass block for Method 2: AWG WARP + Opera Proxy...Configured 
 ;;
 3)
 nameFileReplacePodkop="podkopSecond"
-printf "033[32;1mStop and disabled service 'ruantiblock'...033[0mn"
+printf "\033[32;1mStop and disabled service 'ruantiblock'...\033[0m\n"
 manage_package "ruantiblock" "disable" "stop"
 wget -O "/etc/config/youtubeUnblock" "$URL/config_files/youtubeUnblockSecondDiscord"
 service youtubeUnblock restart
@@ -1086,7 +1046,7 @@ messageComplete="ByPass block for Method 3: youtubeUnblock + Opera Proxy...Confi
 ;;
 4)
 nameFileReplacePodkop="podkopSecondYoutube"
-printf "033[32;1mStop and disabled service 'youtubeUnblock' and 'ruantiblock'...033[0mn"
+printf "\033[32;1mStop and disabled service 'youtubeUnblock' and 'ruantiblock'...\033[0m\n"
 manage_package "youtubeUnblock" "disable" "stop"
 manage_package "ruantiblock" "disable" "stop"
 deleteByPassGeoBlockComssDNS
@@ -1094,18 +1054,18 @@ messageComplete="ByPass block for Method 4: Only Opera Proxy...Configured comple
 ;;
 5)
 nameFileReplacePodkop="podkopSecondYoutube"
-printf "033[32;1mStop and disabled service 'ruantiblock' and 'podkop'...033[0mn"
+printf "\033[32;1mStop and disabled service 'ruantiblock' and 'podkop'...\033[0m\n"
 manage_package "ruantiblock" "disable" "stop"
 manage_package "podkop" "disable" "stop"
 wget -O "/etc/config/youtubeUnblock" "$URL/config_files/youtubeUnblock"
 service youtubeUnblock restart
 byPassGeoBlockComssDNS
-printf "033[32;1mByPass block for Method 5: youtubeUnblock + ComssDNS for GeoBlock...Configured completed...033[0mn"
+printf "\033[32;1mByPass block for Method 5: youtubeUnblock + ComssDNS for GeoBlock...Configured completed...\033[0m\n"
 exit 1
 ;;
 6)
 nameFileReplacePodkop="podkopWARP"
-printf "033[32;1mStop and disabled service 'youtubeUnblock' and 'ruantiblock'...033[0mn"
+printf "\033[32;1mStop and disabled service 'youtubeUnblock' and 'ruantiblock'...\033[0m\n"
 manage_package "youtubeUnblock" "disable" "stop"
 manage_package "ruantiblock" "disable" "stop"
 byPassGeoBlockComssDNS
@@ -1113,7 +1073,7 @@ messageComplete="ByPass block for Method 6: AWG WARP + ComssDNS for GeoBlock...C
 ;;
 7)
 nameFileReplacePodkop="podkopWARPNoYoutube"
-printf "033[32;1mStop and disabled service 'ruantiblock'...033[0mn"
+printf "\033[32;1mStop and disabled service 'ruantiblock'...\033[0m\n"
 manage_package "ruantiblock" "disable" "stop"
 wget -O "/etc/config/youtubeUnblock" "$URL/config_files/youtubeUnblockSecond"
 service youtubeUnblock restart
@@ -1121,11 +1081,11 @@ byPassGeoBlockComssDNS
 messageComplete="ByPass block for Method 7: AWG WARP + youtubeUnblock + ComssDNS for GeoBlock...Configured completed..."
 ;;
 8)
-printf "033[32;1mTry custom settings router to bypass the locks... Recomendation buy 'VPS' and up 'vless'033[0mn"
+printf "\033[32;1mTry custom settings router to bypass the locks... Recomendation buy 'VPS' and up 'vless'\033[0m\n"
 exit 1
 ;;
 *)
-echo "Unknown error. Please send message in group Telegram t.me/routerich"
+echo "Unknown error. Please send message to your support group."
 exit 1
 esac
 
@@ -1168,7 +1128,7 @@ echo "Podkop installed.."
 fi
 fi
 
-printf "033[32;1mStart and enable service 'https-dns-proxy'...033[0mn"
+printf "\033[32;1mStart and enable service 'https-dns-proxy'...\033[0m\n"
 manage_package "https-dns-proxy" "enable" "start"
 
 str=$(grep -i "0 4 * * * wget -O - $URL/configure_zaprets.sh | sh" /etc/crontabs/root)
@@ -1179,10 +1139,10 @@ cp -f "/etc/crontabs/temp" "/etc/crontabs/root"
 rm -f "/etc/crontabs/temp"
 fi
 
-printf "033[32;1mService Podkop and Sing-Box restart...033[0mn"
+printf "\033[32;1mService Podkop and Sing-Box restart...\033[0m\n"
 service sing-box enable
 service sing-box restart
 service podkop enable
 service podkop restart
 
-printf "033[32;1m$messageComplete033[0mn"
+printf "\033[32;1m$messageComplete\033[0m\n"
