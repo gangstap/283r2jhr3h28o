@@ -4,8 +4,8 @@ DESCRIPTION=$(ubus call system board | jsonfilter -e '@.release.description')
 VERSION=$(ubus call system board | jsonfilter -e '@.release.version')
 findVersion="24.10.2"
 
-# Ссылка на ТВОЙ репозиторий для скачивания основных скриптов
-SCRIPT_URL="https://raw.githubusercontent.com/gangstap/283r2jhr3h28o/refs/heads/main"
+# Используем прокси для обхода замедления GitHub провайдерами
+SCRIPT_URL="https://ghp.ci/https://raw.githubusercontent.com/gangstap/283r2jhr3h28o/refs/heads/main"
 
 if printf '%s\n%s\n' "$findVersion" "$VERSION" | sort -V | tail -n1 | grep -qx -- "$VERSION"; then
  printf "\033[32;1mThis new firmware. Running new script...\033[0m\n"
