@@ -1,5 +1,9 @@
 #!/bin/sh
 
+DIR_BACKUP="/root/podkop"
+DIR="/etc/config"
+config_files="dhcp firewall"
+
 install_awg_packages() {
  PKGARCH=$(opkg print-architecture | awk 'BEGIN {max=0} {if ($3 > max) {max = $3; arch = $2}} END {print arch}')
 
@@ -152,15 +156,14 @@ checkPackageAndInstall() {
 
 requestConfWARP1()
 {
- HASH='68747470733a2f2f73616e74612d61746d6f2e72752f776172702f776172702e706870'
- COMPILE=$(printf '%b' "$(printf '%s\n' "$HASH" | sed 's/../\x&/g')")
+ # Прямой URL, без hex-кодирования, которое ломается в BusyBox
+ COMPILE="https://santa-atmo.ru/warp/warp.php"
  local response=$(curl --connect-timeout 20 --max-time 60 -w "%{http_code}" "$COMPILE" \
  -A 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36' \
  -H "referer: $COMPILE" \
  -H "Origin: $COMPILE")
  echo "$response"
 }
-
 requestConfWARP2()
 {
  local result=$(curl --connect-timeout 20 --max-time 60 -w "%{http_code}" 'https://dulcet-fox-556b08.netlify.app/api/warp' \
@@ -585,6 +588,8 @@ uci set dhcp.cfg01411c.strictorder='1'
 uci set dhcp.cfg01411c.filter_aaaa='1'
 uci commit dhcp
 
+
+mkdir -p /etc/sing-box
 cat << EOF > /etc/sing-box/config.json
 {
 "log": {
