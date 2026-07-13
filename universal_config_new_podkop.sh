@@ -558,6 +558,14 @@ opkg update
 
 checkPackageAndInstall "coreutils-base64" "1"
 
+checkPackageAndInstall "https-dns-proxy" "0"
+
+if [ ! -d "$DIR_BACKUP" ]
+then
+echo "Backup files..."
+mkdir -p $DIR_BACKUP
+for file in $config_files
+do
 cp -f "$DIR/$file" "$DIR_BACKUP/$file"
 done
 echo "Replace configs..."
