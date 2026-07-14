@@ -5,7 +5,7 @@ VERSION=$(ubus call system board | jsonfilter -e '@.release.version')
 findVersion="24.10.2"
 
 # Используем прокси-зеркало для мгновенного обхода блокировок GitHub
-SCRIPT_URL="https://raw.githubusercontent.com/routerich/RouterichAX3000_configs/refs/heads/zapret2/universal_config_new_podkop.sh"
+SCRIPT_URL="https://raw.githubusercontent.com/routerich/RouterichAX3000_configs/refs/heads/zapret2/"
 
 if printf '%s\n%s\n' "$findVersion" "$VERSION" | sort -V | tail -n1 | grep -qx -- "$VERSION"; then
  printf "\033[32;1mThis new firmware. Running new script...\033[0m\n"
